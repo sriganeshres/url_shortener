@@ -149,3 +149,58 @@ docker compose down -v
 ```
 
 ---
+
+## Test Results for 10K Virtual Users
+```
+
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: load-test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 1000 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 1000 looping VUs for 30s (gracefulStop: 30s)
+
+WARN[0011] The test has generated metrics with 100080 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details.  component=metrics-engine-ingester
+WARN[0023] The test has generated metrics with 200637 unique time series, which is higher than the suggested limit of 100000 and could cause high memory usage. Consider not using high-cardinality values like unique IDs as metric tags or, if you need them in the URL, use the name metric tag or URL grouping. See https://grafana.com/docs/k6/latest/using-k6/tags-and-groups/ for details.  component=metrics-engine-ingester
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......................: 87354   2828.610657/s
+    checks_succeeded...................: 100.00% 87354 out of 87354
+    checks_failed......................: 0.00%   0 out of 87354
+
+    ✓ Shorten status was 200
+    ✓ Redirect status was 302
+    ✓ Redirect location correct
+
+    HTTP
+    http_req_duration.......................................................: avg=24.23ms min=139.67µs med=1.52ms max=2.52s p(90)=14.51ms p(95)=26.71ms
+      { expected_response:true }............................................: avg=24.23ms min=139.67µs med=1.52ms max=2.52s p(90)=14.51ms p(95)=26.71ms
+    http_req_failed.........................................................: 0.00%  0 out of 58236
+    http_reqs...............................................................: 58236  1885.740438/s
+
+    EXECUTION
+    iteration_duration......................................................: avg=1.04s   min=1s       med=1s     max=3.56s p(90)=1.02s   p(95)=1.06s  
+    iterations..............................................................: 29118  942.870219/s
+    vus.....................................................................: 1000   min=1000       max=1000
+    vus_max.................................................................: 1000   min=1000       max=1000
+
+    NETWORK
+    data_received...........................................................: 11 MB  344 kB/s
+    data_sent...............................................................: 8.7 MB 282 kB/s
+
+
+
+
+running (0m30.9s), 0000/1000 VUs, 29118 complete and 0 interrupted iterations
+default ✓ [======================================] 1000 VUs  30s
+
+```
