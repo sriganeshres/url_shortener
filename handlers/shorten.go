@@ -17,7 +17,9 @@ func ShortenURL(w http.ResponseWriter, r *http.Request) {
 	var req ShortenRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.URL == "" {
-		http.Error(w, "Invalid request", http.StatusBadRequest)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Invalid request"})
 		return
 	}
 
@@ -28,11 +30,15 @@ func ShortenURL(w http.ResponseWriter, r *http.Request) {
 
 	err = db.SaveURL(req.URL, shortCode, req.CustomAlias != "")
 	if err != nil {
-		http.Error(w, "Could not save URL", http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Could not save URL"})
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{
 		"shortUrl": "http://localhost:8080/" + shortCode,
 	})
 }
+

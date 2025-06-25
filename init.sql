@@ -5,3 +5,4 @@ CREATE TABLE IF NOT EXISTS urls (
     created_at TIMESTAMP DEFAULT now(),
     custom_alias BOOLEAN DEFAULT FALSE
 );
+ALTER TABLE urls ALTER COLUMN short_code TYPE VARCHAR(50);
