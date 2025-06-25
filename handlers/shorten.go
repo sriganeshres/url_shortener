@@ -13,6 +13,17 @@ type ShortenRequest struct {
 	CustomAlias string `json:"customAlias"`
 }
 
+/*
+ * @brief ShortenURL processes POST requests to create a shortened URL.
+ * 
+ * This function decodes a JSON request containing an original URL and an optional custom alias.
+ * If the request is valid, it generates a short code (or uses the provided alias), saves the mapping
+ * in the database, and returns the shortened URL. If an error occurs during decoding or saving,
+ * the function responds with an appropriate error message.
+ * 
+ * @param w The ResponseWriter to write HTTP responses.
+ * @param r The incoming HTTP request containing the URL to shorten.
+ */
 func ShortenURL(w http.ResponseWriter, r *http.Request) {
 	var req ShortenRequest
 	err := json.NewDecoder(r.Body).Decode(&req)

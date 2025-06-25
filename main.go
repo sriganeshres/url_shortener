@@ -10,6 +10,12 @@ import (
 	"github.com/sriganeshres/url_shortener/kafka"
 )
 
+/*
+ * @brief main is the entry point for the URL shortener service.
+ *
+ * This function initializes the database, Redis, and Kafka connections and
+ * sets up the HTTP routes for the service. The service listens on port 8080.
+ */
 func main() {
 	db.InitPostgres()
 	db.InitRedis()
